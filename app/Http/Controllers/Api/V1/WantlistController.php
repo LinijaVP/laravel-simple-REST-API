@@ -28,8 +28,63 @@ class WantlistController extends Controller implements HasMiddleware
         ];
     }
     /**
-     * Display a listing of the resource.
-     */
+    * Display Wantlists 
+    * @OA\Get(
+    *      path="/wantlist",
+    *      operationId="getWantlist",
+    *      tags={"Wantlists"},
+    *      summary="Get list of wantlists",
+    *      description="Returns list of wantlists",
+    *      @OA\Parameter(
+    *           name="customerId[eq]",
+    *           in="query",
+    *           description="Optional parameter to search by customer Id",
+    *           required=false,
+    *           @OA\Schema(
+    *               type="integer",
+    *               )
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="#/components/schemas/WantlistResource")
+    *       ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *   )
+    * 
+    * @OA\Get(
+    *      path="/wantlist/{id}",
+    *      operationId="getWantlistById",
+    *      tags={"Wantlists"},
+    *      summary="Get the wantlist with given id",
+    *      description="Returns the wantlist with the given id",
+    *      @OA\Parameter(
+    *          name="id",
+    *          description="Wantlist id",
+    *          required=true,
+    *          in="path",
+    *          @OA\Schema(
+    *              type="integer"
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="#/components/schemas/WantlistResource")
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    * )
+    */
     public function index(Request $request)
     {
         $filter = new WantlistQueryFilter();
@@ -52,8 +107,38 @@ class WantlistController extends Controller implements HasMiddleware
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
+    * Store a newly created wantlist in storage.
+    * @OA\Post(
+    *      path="/wantlist",
+    *      operationId="postWantlist",
+    *      tags={"Wantlists"},
+    *      summary="Creates a wantlist",
+    *      description="Create a new wantlist",
+    *      security={{"sanctum": {}},},
+    *      @OA\RequestBody(
+    *          required=true,
+    *          @OA\JsonContent(ref="#/components/schemas/StoreWantlistRequest")
+    *      ),
+    *      @OA\Response(
+    *          response=201,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="#/components/schemas/WantlistResource")
+    *       ),
+    *      @OA\Response(
+    *          response=400,
+    *          description="Bad Request"
+    *      ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      )
+    *     )
+    * 
+    */
     public function store(StoreWantlistRequest $request)
     {
         // Remove unwanted key value pairs
@@ -107,8 +192,94 @@ class WantlistController extends Controller implements HasMiddleware
     }
 
     /**
-     * Update the specified resource in storage.
-     */
+    * Update the specified resource in storage.
+    * Store a newly created customer in storage.
+    * @OA\Put(
+    *      path="/wantlist/{id}",
+    *      operationId="editWantlist",
+    *      tags={"Wantlists"},
+    *      summary="Edit a wantlist",
+    *      description="Edit a wantlist",
+    *      security={{"sanctum": {}},},
+    *      @OA\Parameter(
+    *          name="id",
+    *          description="Wantlist id",
+    *          required=true,
+    *          in="path",
+    *          @OA\Schema(
+    *              type="integer"
+    *          )
+    *      ),
+    *      @OA\RequestBody(
+    *          required=true,
+    *          @OA\JsonContent(ref="#/components/schemas/UpdateWantlistRequest")
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="#/components/schemas/WantlistResource")
+    *       ),
+    *      @OA\Response(
+    *          response=400,
+    *          description="Bad Request"
+    *      ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Resource Not Found"
+    *      )
+    * )
+    * 
+    * @OA\Patch(
+    *      path="/wantlist/{id}",
+    *      operationId="patchWantlist",
+    *      tags={"Wantlists"},
+    *      summary="Patch a wantlist",
+    *      description="Patch a wantlist",
+    *      security={{"sanctum": {}},},
+    *      @OA\Parameter(
+    *          name="id",
+    *          description="Wantlist id",
+    *          required=true,
+    *          in="path",
+    *          @OA\Schema(
+    *              type="integer"
+    *          )
+    *      ),
+    *      @OA\RequestBody(
+    *          required=true,
+    *          @OA\JsonContent(ref="#/components/schemas/PatchWantlistRequest")
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(ref="#/components/schemas/WantlistResource")
+    *       ),
+    *      @OA\Response(
+    *          response=400,
+    *          description="Bad Request"
+    *      ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Resource Not Found"
+    *      )
+    * )
+    */
     public function update(UpdateWantlistRequest $request, Wantlist $wantlist)
     {
         Gate::authorize("modify", $wantlist);
@@ -116,8 +287,46 @@ class WantlistController extends Controller implements HasMiddleware
     }
 
     /**
-     * Remove the specified resource from storage.
-     */
+    * Remove the specified wantlist from storage.
+    * @OA\Delete(
+    *      path="/wantlist/{id}",
+    *      operationId="deleteWantlist",
+    *      tags={"Wantlists"},
+    *      summary="Delete a wantlist",
+    *      description="Delete a wantlist",
+    *      security={{"sanctum": {}},},
+    *      @OA\Parameter(
+    *          name="id",
+    *          description="Wantlist id",
+    *          required=true,
+    *          in="path",
+    *          @OA\Schema(
+    *              type="integer"
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent()
+    *       ),
+    *      @OA\Response(
+    *          response=400,
+    *          description="Bad Request"
+    *      ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *      ),
+    *      @OA\Response(
+    *          response=403,
+    *          description="Forbidden"
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Resource Not Found"
+    *      )
+    * )
+    */
     public function destroy(Wantlist $wantlist)
     {
         Gate::authorize("modify", $wantlist);

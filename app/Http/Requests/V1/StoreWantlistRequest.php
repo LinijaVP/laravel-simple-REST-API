@@ -18,6 +18,15 @@ class StoreWantlistRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @OA\Schema(
+     *     schema="StoreWantlistRequest",
+     *     required={"customerId", "price", "item", "status", "boughtDate"},
+     *     @OA\Property(property="customerId", type="integer", example=105),
+     *     @OA\Property(property="price", type="integer", example=100),
+     *     @OA\Property(property="item", type="string", example="itemName"),
+     *     @OA\Property(property="status", type="string", enum={"W", "B"}, example="W"),
+     *     @OA\Property(property="boughtDate", type="[date_format:Y-m-d H:i:s|nullable]", example=null),
+     * )
      */
     public function rules(): array
     {

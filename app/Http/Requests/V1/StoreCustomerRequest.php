@@ -18,7 +18,19 @@ class StoreCustomerRequest extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * 
+     * @OA\Schema(
+     *     schema="StoreCustomerRequest",
+     *     required={"name", "type", "email", "city", "country", "budget"},
+     *     @OA\Property(property="name", type="string", example="Name"),
+     *     @OA\Property(property="type", type="string", enum={"S", "G"}, example="S"),
+     *     @OA\Property(property="email", type="email", example="vp@gmail.com"),
+     *     @OA\Property(property="city", type="string", example="Portland"),
+     *     @OA\Property(property="country", type="string", example="Oregon"),
+     *     @OA\Property(property="budget", type="integer", example=1000)
+     * )
      */
+    
     public function rules(): array
     {
         return [

@@ -11,7 +11,18 @@ class CustomerResource extends JsonResource
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
+     * @OA\Schema(
+     *     schema="CustomerResource",
+     *     @OA\Property(property="name", type="string", example="Name"),
+     *     @OA\Property(property="type", type="string", enum={"S", "G"}, example="S"),
+     *     @OA\Property(property="email", type="email", example="vp@gmail.com"),
+     *     @OA\Property(property="city", type="string", example="Portland"),
+     *     @OA\Property(property="country", type="string", example="Oregon"),
+     *     @OA\Property(property="budget", type="integer", example=1000)
+     * )
      */
+
+     
     public function toArray(Request $request): array
     {
         return [

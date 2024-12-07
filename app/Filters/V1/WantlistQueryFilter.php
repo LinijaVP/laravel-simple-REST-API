@@ -15,5 +15,6 @@ class WantlistQueryFilter extends ApiQueryFilter{
 
     protected $columnMap = [
         "boughtDate" => "bought_date",
+        "customerId" => "customer_id"
     ]; 
 }

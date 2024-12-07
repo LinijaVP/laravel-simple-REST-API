@@ -1,0 +1,1035 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel API documentation",
+        "description": "API for Waitlists",
+        "contact": {
+            "url": "https://github.com/LinijaVP"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api/v1",
+            "description": "Api server"
+        }
+    ],
+    "paths": {
+        "/customer": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get list of customers",
+                "description": "Returns list of customers",
+                "operationId": "getCustomers",
+                "parameters": [
+                    {
+                        "name": "name[eq]",
+                        "in": "query",
+                        "description": "Optional parameter to search by name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "country[eq]",
+                        "in": "query",
+                        "description": "Optional parameter to search by country",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type[eq]",
+                        "in": "query",
+                        "description": "Optional parameter to search by country",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "S",
+                                "G"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "showWantlists",
+                        "in": "query",
+                        "description": "Optional parameter to hide the customers wantlists",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Creates a customer",
+                "description": "Create a new customer",
+                "operationId": "postCustomers",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/customer/{id}": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get the customer with given id",
+                "description": "Returns customer with given id",
+                "operationId": "getCustomerById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "showWantlists",
+                        "in": "query",
+                        "description": "Optional parameter to hide the customers wantlists",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Edit a customer",
+                "description": "Edit a customer",
+                "operationId": "editCustomer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Delete a customer",
+                "description": "Delete a customer",
+                "operationId": "deleteCustomer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Patch a customer",
+                "description": "Patch a customer",
+                "operationId": "patchCustomer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchCustomerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/wantlist": {
+            "get": {
+                "tags": [
+                    "Wantlists"
+                ],
+                "summary": "Get list of wantlists",
+                "description": "Returns list of wantlists",
+                "operationId": "getWantlist",
+                "parameters": [
+                    {
+                        "name": "customerId[eq]",
+                        "in": "query",
+                        "description": "Optional parameter to search by customer Id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WantlistResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Wantlists"
+                ],
+                "summary": "Creates a wantlist",
+                "description": "Create a new wantlist",
+                "operationId": "postWantlist",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreWantlistRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WantlistResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/wantlist/{id}": {
+            "get": {
+                "tags": [
+                    "Wantlists"
+                ],
+                "summary": "Get the wantlist with given id",
+                "description": "Returns the wantlist with the given id",
+                "operationId": "getWantlistById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Wantlist id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WantlistResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Wantlists"
+                ],
+                "summary": "Edit a wantlist",
+                "description": "Edit a wantlist",
+                "operationId": "editWantlist",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Wantlist id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateWantlistRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WantlistResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Wantlists"
+                ],
+                "summary": "Delete a wantlist",
+                "description": "Delete a wantlist",
+                "operationId": "deleteWantlist",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Wantlist id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Wantlists"
+                ],
+                "summary": "Patch a wantlist",
+                "description": "Patch a wantlist",
+                "operationId": "patchWantlist",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Wantlist id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PatchWantlistRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WantlistResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                    "User Authentication"
+                ],
+                "summary": "Creates a user",
+                "description": "Create a new user",
+                "operationId": "register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Name"
+                                    },
+                                    "email": {
+                                        "type": "email",
+                                        "example": "vp@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "pass"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "pass"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully registered"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The email has already been taken."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "User Authentication"
+                ],
+                "summary": "Log a user in",
+                "description": "Log a user in",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "email",
+                                        "example": "vp@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "pass"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged in"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "User Authentication"
+                ],
+                "summary": "Logs a user out",
+                "description": "Logs a user out",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "StoreCustomerRequest": {
+                "required": [
+                    "name",
+                    "type",
+                    "email",
+                    "city",
+                    "country",
+                    "budget"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Get the validation rules that apply to the request.",
+                        "type": "string",
+                        "example": "Name"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "S",
+                            "G"
+                        ],
+                        "example": "S"
+                    },
+                    "email": {
+                        "type": "email",
+                        "example": "vp@gmail.com"
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "Portland"
+                    },
+                    "country": {
+                        "type": "string",
+                        "example": "Oregon"
+                    },
+                    "budget": {
+                        "type": "integer",
+                        "example": 1000
+                    }
+                },
+                "type": "object"
+            },
+            "StoreWantlistRequest": {
+                "required": [
+                    "customerId",
+                    "price",
+                    "item",
+                    "status",
+                    "boughtDate"
+                ],
+                "properties": {
+                    "customerId": {
+                        "description": "Get the validation rules that apply to the request.",
+                        "type": "integer",
+                        "example": 105
+                    },
+                    "price": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "item": {
+                        "type": "string",
+                        "example": "itemName"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "W",
+                            "B"
+                        ],
+                        "example": "W"
+                    },
+                    "boughtDate": {
+                        "type": "[date_format:Y-m-d H:i:s|nullable]",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            },
+            "PatchCustomerRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Get the validation rules that apply to the request.",
+                        "type": "string",
+                        "example": "Name"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "S",
+                            "G"
+                        ],
+                        "example": "S"
+                    },
+                    "email": {
+                        "type": "email",
+                        "example": "vp@gmail.com"
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "Portland"
+                    },
+                    "country": {
+                        "type": "string",
+                        "example": "Oregon"
+                    },
+                    "budget": {
+                        "type": "integer",
+                        "example": 1000
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateWantlistRequest": {
+                "required": [
+                    "price",
+                    "item",
+                    "status",
+                    "boughtDate"
+                ],
+                "properties": {
+                    "price": {
+                        "description": "Get the validation rules that apply to the request.",
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "item": {
+                        "type": "string",
+                        "example": "itemName"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "W",
+                            "B"
+                        ],
+                        "example": "W"
+                    },
+                    "boughtDate": {
+                        "type": "[date_format:Y-m-d H:i:s|nullable]",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            },
+            "PatchWantlistRequest": {
+                "properties": {
+                    "price": {
+                        "type": "integer",
+                        "example": 100
+                    },
+                    "item": {
+                        "type": "string",
+                        "example": "itemName"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "W",
+                            "B"
+                        ],
+                        "example": "W"
+                    },
+                    "boughtDate": {
+                        "type": "[date_format:Y-m-d H:i:s|nullable]",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerResource": {
+                "properties": {
+                    "name": {
+                        "description": "Transform the resource into an array.",
+                        "type": "string",
+                        "example": "Name"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "S",
+                            "G"
+                        ],
+                        "example": "S"
+                    },
+                    "email": {
+                        "type": "email",
+                        "example": "vp@gmail.com"
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "Portland"
+                    },
+                    "country": {
+                        "type": "string",
+                        "example": "Oregon"
+                    },
+                    "budget": {
+                        "type": "integer",
+                        "example": 1000
+                    }
+                },
+                "type": "object"
+            },
+            "WantlistResource": {
+                "properties": {
+                    "id": {
+                        "description": "Transform the resource into an array.",
+                        "type": "integer"
+                    },
+                    "customerId": {
+                        "type": "integer"
+                    },
+                    "price": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "item": {
+                        "type": "string",
+                        "example": "itemName"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "W",
+                            "B"
+                        ],
+                        "example": "W"
+                    },
+                    "boughtDate": {
+                        "type": "[date_format:Y-m-d H:i:s|nullable]",
+                        "example": null
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "name": "sanctum",
+                "in": "header",
+                "bearerFormat": "Token",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Customers",
+            "description": "Customers"
+        },
+        {
+            "name": "Wantlists",
+            "description": "Wantlists"
+        },
+        {
+            "name": "User Authentication",
+            "description": "User Authentication"
+        }
+    ]
+}
