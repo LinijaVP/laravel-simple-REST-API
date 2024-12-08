@@ -1,6 +1,35 @@
 # Laravel Simple REST API for Wantlist
 
-This is a project meant to learn how to create simple yet powerful and safe REST API in the Laravel framework. I will be listing the steps I did to create this project.
+This is a project meant to learn how to create simple yet powerful and safe REST API in the Laravel framework. 
+
+To use the API run the following commands:
+
+`composer install`
+
+`npm install && npm build`
+
+`php artisan key:generate` - generate key
+
+`php artisan migrate:fresh --seed` - seed database
+
+Edit .env to your personal parameters.
+
+## Update 1: Swagger documentation 
+I added Swagger documentation for ease of use and to learn how to do proper documentation with authorization enabled. The full documentation for the API is at the route:
+
+`localhost:8000/api/documentation/`
+
+Where you first need to register, upon which you will be given a token, which you use to authorize yourself at the top of the page. This enables you to do all the requests on the page.  
+
+## Process
+From here on, I will be listing the steps I took when building this API.
+
+## Update 1: Swagger documentation 
+I added Swagger documentation for ease of use and to learn how to do proper documentation with authorization enabled. The full documentation for the API is at the route:
+
+`localhost:8000/api/documentation/`
+
+Where you first need to register, upon which you will be given a token, which you use to authorize yourself at the top of the page. This enables you to do all the requests on the page.  
 
 ## Database
 First I needed to generate data. I created and seeded a mysql database with 2 tables: Customer and Wantlist. The relation between them is that a customer has Many Wantlists. This is done by creating migrations with artisan:
@@ -82,11 +111,9 @@ The login route just includes the email and password inputs and outputs a new to
 
 Authentication is checked in the Controller classes by using the Gate facade and Policies. Policies are declared in the Policies files and connected in the AppServiceProvider. Upon a POST, PUT, PATCH, DELETE request a `Gate::Authorize("policy", arguments)` request is called to check if the user is authorized to do this command.
 
-## Conclusion
-This is all the work done for now. More functionality will be included over time, as this project is a project made for learning. To use the api use the following terminal commands. 
+## Swagger documentation
+For the swagger documentation I used the package [darkaonline/l5-swagger](https://github.com/DarkaOnLine/L5-Swagger), which helps you configure many settings and supplies the view file. For each request I had to write OpenApi annotations above the respective function and note all the parameters. Instructions on how to fill the OpenApi annotations are given at the GitHub Page of the [l5-swagger](https://github.com/DarkaOnLine/L5-Swagger) package.
 
-`composer install`
-`npm install && npm build`
-`php artisan key:generate` - generate key
-`php artisan migrate:fresh --seed` - seed database
+## Conclusion
+This is all the work done for now. More functionality will be included over time, as this project is a project made for learning. 
 
